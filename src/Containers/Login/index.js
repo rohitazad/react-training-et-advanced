@@ -1,20 +1,41 @@
 import React, { useEffect } from 'react';
 import LayoutComponent from '../../Components/Layout';
 import { useNavigate } from 'react-router-dom';
-const LoginPage = ({handleLogin, isLoggedIn})=>{
+import { useAuth } from '../../Context';
+const LoginPage = ()=>{
+    const { handleLogin, isLoggedIn } = useAuth();
     const navigate = useNavigate();
+    const loginAPICall = (username,password)=>{
+        fetch('https://dummyjson.com/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                // expiresInMins: 60, // optional
+            })
+        })
+        .then(res => res.json())
+        .then((res)=>{
+            if(res && res.email && res.email !== ''){
+                handleLogin(res)
+                navigate('/');
+            }else{
+                alert(res.message)
+            }
+            console.log('REs', res)
+        });
+
+    }
     const submitForm = (e)=>{
         e.preventDefault();
         const formData = new FormData(e.target);
-        const email = formData.get('email');
+        const username = formData.get('username');
         const password = formData.get('password');
-        console.log('Email:', email);
-        console.log('Password:', password);
-        if(email !== '' && password !== ''){
-            handleLogin(email,password)
-            navigate('/');
+        if(username !== '' && password !== ''){
+            loginAPICall(username, password)
         }else{
-            alert('please fill email id and password')
+            alert('please fill username  and password')
         }
     }
     
@@ -32,8 +53,8 @@ const LoginPage = ({handleLogin, isLoggedIn})=>{
 
                     <form action="#" name='loginUserName' onSubmit={submitForm} className="mt-10 grid grid-cols-1 gap-y-8">
                         <div className="">
-                            <label htmlFor="email" className="mb-3 block text-sm font-medium text-gray-700">Email address</label>
-                            <input id="email" type="email" name="email" autoComplete="email" required="" className="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm" />
+                            <label htmlFor="username" className="mb-3 block text-sm font-medium text-gray-700">Username</label>
+                            <input id="username" type="text" name="username"  required="" className="block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-blue-500 sm:text-sm" />
                         </div>
                         <div className="">
                             <label htmlFor="password" className="mb-3 block text-sm font-medium text-gray-700">Password</label>

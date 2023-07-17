@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const HeaderComponent = ({isLoggedIn, handleLogout})=>{
+import { useAuth } from '../../Context';
+const HeaderComponent = ()=>{
+    const { handleLogout, isLoggedIn, userInfo } = useAuth();
+    const name = userInfo && userInfo.firstName !== '' ? userInfo.firstName : '';
     const menuJson = [
         {
             title:"About",
@@ -40,6 +43,9 @@ const HeaderComponent = ({isLoggedIn, handleLogout})=>{
 
                         <div className='flex items-center gap-x-5 md:gap-x-8'>
                             <div className='md:block'>
+                                {
+                                    name ? <span>Welcome back <span className='font-semibold bg-slate-300 p-1 text-sm'>{name}</span></span> : ''
+                                }
                                 {
                                     isLoggedIn ? <span className='inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900' onClick={handleLogout}>Sign Out</span> :  <Link to="/login" className='inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900'>Sign in</Link>
                                 }

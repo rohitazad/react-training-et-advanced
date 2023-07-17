@@ -1,13 +1,17 @@
 import React from 'react';
 import LayoutComponent from '../../Components/Layout';
-const HomePage = ({loginStatus})=>{
+import { useAuth } from '../../Context';
+const HomePage = ()=>{
+    const { isLoggedIn, userInfo } = useAuth();
+    console.log('userInfo',userInfo)
+    const name = userInfo && userInfo.firstName !== '' ? userInfo.firstName : '';
     return (
         <>
             {
                 <LayoutComponent>
-                    <h1 className='text-lg text-gray-900 font-bold'>Hello i m Index page</h1>
+                    <h1 className='pt-8 mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900'>DashBoard</h1>
                     {
-                        loginStatus ? 'Welcome back ' : 'Your are not login'
+                        isLoggedIn ? `Welcome Back ${name}` : 'Your are not login please login'
                     }
                 </LayoutComponent>
             }

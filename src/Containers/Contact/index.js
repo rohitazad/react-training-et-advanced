@@ -3,7 +3,9 @@ import LayoutComponent from '../../Components/Layout';
 const ContactPage = ()=>{
     return (
         <LayoutComponent>
-            <h1 className='text-lg text-gray-900 font-bold'>Hello i m Index ContactPage</h1>
+            <h1 className='text-lg text-gray-900 font-bold'>
+                Contact Us Page
+            </h1>
         </LayoutComponent>
     )
 }
