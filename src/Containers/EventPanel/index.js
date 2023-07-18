@@ -1,15 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import LayoutComponent from '../../Components/Layout';
 import SingleProudctItem from '../../Components/SingleProduct';
+import { useAuth } from '../../Context';
 const EventPanelPage = ()=>{
-    const [products, setProducts] = useState([]);
+    const { productslist, updateProductList } = useAuth();
+    const [products, setProducts] = useState(productslist);
     const GetProductAPI = ()=>{
         fetch('https://dummyjson.com/products')
         .then(res => res.json())
-        .then(res => setProducts(res.products));
+        .then(
+            res => {
+                setProducts(res.products);
+                updateProductList(res.products)
+            }
+        );
+
+        
     }
     useEffect(()=>{
-        GetProductAPI()
+        if(productslist && productslist.length === 0){
+            GetProductAPI()
+        }
+        
     },[])
     return (
         <LayoutComponent>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const SingleProudctItem = ({data})=>{
     return (
         <>
-            <Link to="/" className="group bg-slate-200 p-1">
+            <Link to={`/product/${data.id}`} className="group bg-slate-200 p-1">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-400 p-2">
                     <img src={data.images[0]}  alt={data.title} className=" w-36 group-hover:opacity-75" />
                 </div>

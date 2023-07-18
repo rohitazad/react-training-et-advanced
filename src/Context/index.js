@@ -12,6 +12,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({});
+    const [productslist, setProductslist] = useState([]);
   
     // Function to handle login
     const handleLogin = (userDetail) => {
@@ -29,6 +30,10 @@ export function AuthProvider({ children }) {
       localStorage.removeItem('isLoggedInUser');
       setUserInfo({})
     };
+    // update products list 
+    const updateProductList = (productslist)=>{
+      setProductslist(productslist)
+    }
     useEffect(() => {
         const storedLoginStatus = localStorage.getItem('isLoggedInUser');
         if (storedLoginStatus !== null) {
@@ -43,7 +48,9 @@ export function AuthProvider({ children }) {
       isLoggedIn,
       handleLogin,
       handleLogout,
+      updateProductList,
       userInfo,
+      productslist
     };
     return (
         <AuthContext.Provider value={authContextValue}>
