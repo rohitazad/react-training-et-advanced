@@ -1,14 +1,17 @@
-import React from "react";
+import React, {Suspense} from "react";
 import {BrowserRouter , Routes, Route, Navigate} from 'react-router-dom';
-import ContactPage from '../Containers/Contact';
-import AboutPage from '../Containers/About';
-import HomePage from '../Containers/Home';
-import EventPanelPage from '../Containers/EventPanel';
-import ProdcutPage from '../Containers/Product';
-import LoginPage from '../Containers/Login';
 import FooterComponent from '../Components/Footer';
 import HeaderComponent from '../Components/Header';
 import { useAuth } from '../Context';
+
+const ContactPage = React.lazy(()=> import('../Containers/Contact'));
+const AboutPage = React.lazy(()=> import('../Containers/About'));
+const HomePage = React.lazy(()=> import('../Containers/Home'));
+const EventPanelPage = React.lazy(()=> import('../Containers/EventPanel'));
+const ProdcutPage = React.lazy(()=> import('../Containers/Product'));
+const LoginPage = React.lazy(()=> import('../Containers/Login'));
+
+
 const RouteConfigFile = ()=>{
     const {isLoggedIn } = useAuth();
     const ProtectedRoute = (props)=>{
@@ -17,18 +20,20 @@ const RouteConfigFile = ()=>{
     }
     return(
         <>
-            <BrowserRouter>
-                <HeaderComponent />
-                <Routes>
-                    <Route path='/' element={<HomePage />} />
-                    <Route path='/about' element={<AboutPage />} />
-                    <Route path='/contact' element={<ContactPage />} />
-                    <Route path='/eventpanel' element={<ProtectedRoute />} />
-                    <Route path='/login' element={<LoginPage />} />
-                    <Route path='/product/:productId' element={<ProdcutPage />} />
-                </Routes>
-                <FooterComponent />
-            </BrowserRouter>
+            <Suspense fallback={<div>Loading...</div>}>
+                <BrowserRouter>
+                    <HeaderComponent />
+                    <Routes>
+                        <Route path='/' element={<HomePage />} />
+                        <Route path='/about' element={<AboutPage />} />
+                        <Route path='/contact' element={<ContactPage />} />
+                        <Route path='/eventpanel' element={<ProtectedRoute />} />
+                        <Route path='/login' element={<LoginPage />} />
+                        <Route path='/product/:productId' element={<ProdcutPage />} />
+                    </Routes>
+                    <FooterComponent />
+                </BrowserRouter>
+            </Suspense>
         </>
     )
 }
