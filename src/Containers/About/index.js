@@ -8,8 +8,8 @@ const AboutPage = ()=>{
         <>
         <LayoutComponent>
             <h1 className='text-lg text-gray-900 font-bold'>About us Page</h1>
-            {/* <UseMemoExample /> */}
-            {/* <UseCallbackParentComponent /> */}
+            <UseMemoExample />
+            <UseCallbackParentComponent />
         </LayoutComponent>
         </>
     )

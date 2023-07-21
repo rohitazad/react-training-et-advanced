@@ -5,7 +5,7 @@ const MemoValueWIthOutComponents = ({value})=>{
     console.log("with out Render 2");
     return (
         <div>
-          MemoFunctionValue :- {value}
+          MemoFunctionValue 22:- {value}
         </div>
       );
 }
